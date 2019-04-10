@@ -6,7 +6,7 @@ class beetmover_scriptworker {
     include beetmover_scriptworker::settings
     include dirs::builds
     include packages::mozilla::python3
-    include users::builder
+    include users::ciduty
     include tweaks::swap_on_instance_storage
     include packages::gcc
     include packages::make
@@ -31,8 +31,8 @@ class beetmover_scriptworker {
             python3         => $packages::mozilla::python3::python3,
             rebuild_trigger => Exec["stop-for-rebuild-${module_name}"],
             require         => Class['packages::mozilla::python3'],
-            user            => $users::builder::username,
-            group           => $users::builder::group,
+            user            => $users::ciduty::username,
+            group           => $users::ciduty::group,
             mode            => '0700',
             packages        => file("beetmover_scriptworker/requirements.txt");
     }
@@ -45,8 +45,8 @@ class beetmover_scriptworker {
             task_script              => $beetmover_scriptworker::settings::task_script,
             task_script_config       => $beetmover_scriptworker::settings::task_script_config,
 
-            username                 => $users::builder::username,
-            group                    => $users::builder::group,
+            username                 => $users::ciduty::username,
+            group                    => $users::ciduty::group,
 
             taskcluster_client_id    => $env_config["taskcluster_client_id"],
             taskcluster_access_token => $env_config["taskcluster_access_token"],
@@ -70,8 +70,8 @@ class beetmover_scriptworker {
         "${beetmover_scriptworker::settings::root}/script_config.json":
             require   => Python3::Virtualenv[$beetmover_scriptworker::settings::root],
             mode      => '0600',
-            owner     => $users::builder::username,
-            group     => $users::builder::group,
+            owner     => $users::ciduty::username,
+            group     => $users::ciduty::group,
             content   => template('beetmover_scriptworker/script_config.json.erb'),
             show_diff => false;
     }
