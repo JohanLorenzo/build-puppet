@@ -284,6 +284,7 @@ class config::base {
     $distinguished_aws_manager  = ''
     # the username under which all operations take place
     $buildduty_username         = 'buildduty'
+    $ciduty_username         = 'ciduty'
     # root directory for aws_manager; this must be under /builds
     $aws_manager_root           = '/builds/aws_manager'
     # s3 bucket for s3 aws_manager logs parsing
